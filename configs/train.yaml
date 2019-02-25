@@ -1,0 +1,7 @@
+batch_size: 128
+num_epochs: 350
+lr: 0.1
+lr_decay: 0.1
+lr_decay_epoch: [150, 250]
+momentum: 0.9
+weight_decay: 0.0001
