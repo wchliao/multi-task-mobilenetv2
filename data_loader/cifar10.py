@@ -32,33 +32,6 @@ class CIFAR10Loader(BaseDataLoader):
             dataset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                                    download=True, transform=transform)
 
-            num_data = len(dataset)
-            index = list(range(num_data))
-            sampler = torch.utils.data.sampler.SubsetRandomSampler(index[:45000])
-
-            self.dataloader = torch.utils.data.DataLoader(dataset,
-                                                          batch_size=self.batch_size,
-                                                          sampler=sampler,
-                                                          drop_last=self.drop_last)
-
-        elif self.type == 'valid':
-            transform = torchvision.transforms.Compose(
-                [torchvision.transforms.ToTensor(),
-                 torchvision.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))]
-            )
-
-            dataset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                                   download=True, transform=transform)
-
-            num_data = len(dataset)
-            index = list(range(num_data))
-            sampler = torch.utils.data.sampler.SubsetRandomSampler(index[45000:])
-
-            self.dataloader = torch.utils.data.DataLoader(dataset,
-                                                          batch_size=self.batch_size,
-                                                          sampler=sampler,
-                                                          drop_last=self.drop_last)
-
         elif self.type == 'test':
             transform = torchvision.transforms.Compose(
                 [torchvision.transforms.ToTensor(),
@@ -68,11 +41,12 @@ class CIFAR10Loader(BaseDataLoader):
             dataset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                                    download=True, transform=transform)
 
-            self.dataloader = torch.utils.data.DataLoader(dataset, 
-                                                          batch_size=self.batch_size,
-                                                          drop_last=self.drop_last)
         else:
             raise ValueError('Unknown data type: {}'.format(type))
+
+        self.dataloader = torch.utils.data.DataLoader(dataset,
+                                                      batch_size=self.batch_size,
+                                                      drop_last=self.drop_last)
 
 
     def get_loader(self, task=None):

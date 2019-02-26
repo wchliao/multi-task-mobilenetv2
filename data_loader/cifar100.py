@@ -27,49 +27,23 @@ class CIFAR100Loader(BaseDataLoader):
         if self.type == 'train':
             dataset = torchvision.datasets.CIFAR100(root='./data', train=True,
                                                     download=True, transform=normalize)
-
-            num_data = len(dataset)
-            index = list(range(num_data))
-            sampler = torch.utils.data.sampler.SubsetRandomSampler(index[:45000])
-
-            dataloader = torch.utils.data.DataLoader(dataset,
-                                                     batch_size=self.batch_size,
-                                                     sampler=sampler,
-                                                     drop_last=self.drop_last)
-
             self.transform = torchvision.transforms.Compose(
                 [torchvision.transforms.RandomCrop(32, padding=4),
                  torchvision.transforms.RandomHorizontalFlip(),
                  torchvision.transforms.ToTensor()]
             )
 
-        elif self.type == 'valid':
-            dataset = torchvision.datasets.CIFAR100(root='./data', train=True,
-                                                    download=True, transform=normalize)
-
-            num_data = len(dataset)
-            index = list(range(num_data))
-            sampler = torch.utils.data.sampler.SubsetRandomSampler(index[45000:])
-
-            dataloader = torch.utils.data.DataLoader(dataset,
-                                                     batch_size=self.batch_size,
-                                                     sampler=sampler,
-                                                     drop_last=self.drop_last)
-
-            self.transform = None
-
         elif self.type == 'test':
             dataset = torchvision.datasets.CIFAR100(root='./data', train=False,
                                                     download=True, transform=normalize)
-
-            dataloader = torch.utils.data.DataLoader(dataset,
-                                                     batch_size=self.batch_size,
-                                                     drop_last=self.drop_last)
-
             self.transform = None
 
         else:
             raise ValueError('Unknown data type: {}'.format(type))
+
+        dataloader = torch.utils.data.DataLoader(dataset,
+                                                 batch_size=self.batch_size,
+                                                 drop_last=self.drop_last)
 
         with open('data_loader/CIFAR100_fine2coarse.json', 'r') as f:
             data_info = json.load(f)

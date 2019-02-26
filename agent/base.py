@@ -2,7 +2,7 @@ class BaseModel:
     def __init__(self, architecture, task_info):
         pass
 
-    def train(self, train_data, valid_data, configs, save_history, path, verbose):
+    def train(self, train_data, test_data, configs, save_history, path, verbose):
         raise NotImplementedError
 
     def eval(self, data):

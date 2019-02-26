@@ -18,7 +18,7 @@ class SingleTaskModel(BaseModel):
 
     def train(self,
               train_data,
-              valid_data,
+              test_data,
               configs,
               save_history=False,
               path='saved_models/default/',
@@ -43,7 +43,7 @@ class SingleTaskModel(BaseModel):
                 loss.backward()
                 optimizer.step()
 
-            accuracy.append(self.eval(valid_data))
+            accuracy.append(self.eval(test_data))
 
             if verbose:
                 print('[Epoch {}] Accuracy: {}'.format(epoch+1, accuracy[-1]))

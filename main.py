@@ -32,10 +32,10 @@ def train(args):
 
     if args.data == 0:
         train_data = CIFAR10Loader(batch_size=configs.batch_size, type='train', drop_last=True)
-        valid_data = CIFAR10Loader(batch_size=configs.batch_size, type='valid', drop_last=False)
+        test_data = CIFAR10Loader(batch_size=configs.batch_size, type='test', drop_last=False)
     elif args.data == 1:
         train_data = CIFAR100Loader(batch_size=configs.batch_size, type='train', drop_last=True)
-        valid_data = CIFAR100Loader(batch_size=configs.batch_size, type='valid', drop_last=False)
+        test_data = CIFAR100Loader(batch_size=configs.batch_size, type='test', drop_last=False)
     else:
         raise ValueError('Unknown data ID: {}'.format(args.data))
 
@@ -60,7 +60,7 @@ def train(args):
                              )
 
         train_data = train_data.get_loader(args.task)
-        valid_data = valid_data.get_loader(args.task)
+        test_data = test_data.get_loader(args.task)
 
         agent = SingleTaskModel(architecture=architecture, task_info=task_info)
 
@@ -68,7 +68,7 @@ def train(args):
         agent.load(args.path)
 
     agent.train(train_data=train_data,
-                valid_data=valid_data,
+                test_data=test_data,
                 configs=configs,
                 save_history=args.save_history,
                 path=args.path,
