@@ -46,6 +46,7 @@ class CIFAR10Loader(BaseDataLoader):
 
         self.dataloader = torch.utils.data.DataLoader(dataset,
                                                       batch_size=self.batch_size,
+                                                      shuffle=self.shuffle,
                                                       drop_last=self.drop_last)
 
 
