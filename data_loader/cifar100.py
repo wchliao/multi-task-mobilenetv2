@@ -19,23 +19,30 @@ class CIFAR100Loader(BaseDataLoader):
 
 
     def _create_dataloaders(self):
-        normalize = torchvision.transforms.Compose(
-            [torchvision.transforms.ToTensor(),
-             torchvision.transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))]
-        )
-
         if self.type == 'train':
+            transform = torchvision.transforms.Compose(
+                [torchvision.transforms.ToTensor()]
+            )
+
             dataset = torchvision.datasets.CIFAR100(root='./data', train=True,
-                                                    download=True, transform=normalize)
+                                                    download=True, transform=transform)
+
             self.transform = torchvision.transforms.Compose(
                 [torchvision.transforms.RandomCrop(32, padding=4),
                  torchvision.transforms.RandomHorizontalFlip(),
-                 torchvision.transforms.ToTensor()]
+                 torchvision.transforms.ToTensor(),
+                 torchvision.transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))]
             )
 
         elif self.type == 'test':
+            transform = torchvision.transforms.Compose(
+                [torchvision.transforms.ToTensor(),
+                 torchvision.transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))]
+            )
+
             dataset = torchvision.datasets.CIFAR100(root='./data', train=False,
-                                                    download=True, transform=normalize)
+                                                    download=True, transform=transform)
+
             self.transform = None
 
         else:
