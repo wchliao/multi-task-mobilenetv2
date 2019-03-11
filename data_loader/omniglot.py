@@ -55,8 +55,8 @@ class OmniglotLoader(BaseDataLoader):
                         task_images.append(image)
                         task_labels.append(label)
 
-                    images.append(task_images)
-                    labels.append(task_labels)
+                images.append(task_images)
+                labels.append(task_labels)
 
         self._num_classes = [len(np.unique(task_labels)) for task_labels in labels]
 
