@@ -1,7 +1,7 @@
 import argparse
 import yaml
 from namedtuple import TaskInfo, ModelConfigs, LayerArguments
-from data_loader import CIFAR10Loader, CIFAR100Loader
+from data_loader import CIFAR10Loader, CIFAR100Loader, OmniglotLoader
 from agent import SingleTaskModel, MultiTaskModel
 
 
@@ -12,8 +12,9 @@ def parse_args():
     mode.add_argument('--train', action='store_true')
     mode.add_argument('--eval', action='store_true')
 
-    parser.add_argument('--data', type=int, default=1, help='0: CIFAR-10'
-                                                            '1: CIFAR-100')
+    parser.add_argument('--data', type=int, default=1, help='0: CIFAR-10\n'
+                                                            '1: CIFAR-100\n'
+                                                            '2: Omniglot')
     parser.add_argument('--task', type=int, default=None)
 
     parser.add_argument('--save', action='store_true')
@@ -36,6 +37,9 @@ def train(args):
     elif args.data == 1:
         train_data = CIFAR100Loader(batch_size=configs.batch_size, type='train', drop_last=True)
         test_data = CIFAR100Loader(batch_size=configs.batch_size, type='test', drop_last=False)
+    elif args.data == 2:
+        train_data = OmniglotLoader(batch_size=configs.batch_size, type='train', drop_last=True)
+        test_data = OmniglotLoader(batch_size=configs.batch_size, type='test', drop_last=False)
     else:
         raise ValueError('Unknown data ID: {}'.format(args.data))
 
@@ -87,6 +91,8 @@ def evaluate(args):
         data = CIFAR10Loader(batch_size=configs.batch_size, type='test', drop_last=False)
     elif args.data == 1:
         data = CIFAR100Loader(batch_size=configs.batch_size, type='test', drop_last=False)
+    elif args.data == 2:
+        data = OmniglotLoader(batch_size=configs.batch_size, type='test', drop_last=False)
     else:
         raise ValueError('Unknown data ID: {}'.format(args.data))
 

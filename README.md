@@ -17,6 +17,7 @@ Arguments:
  * `--data`: (default: `1`)
    * `0`: CIFAR-10
    * `1`: CIFAR-100
+   * `2`: Omniglot
  * `--task`: Task ID (default: None) 
  * `--save`: A flag used to decide whether to save model or not.
  * `--load`: Load a pre-trained model before training.
@@ -35,5 +36,6 @@ Arguments:
  * `--data`: (default: `1`)
    * `0`: CIFAR-10
    * `1`: CIFAR-100
+   * `2`: Omniglot
  * `--task`: Task ID (default: None)
  * `--path`: Path (directory) that model and history are saved. (default: `'saved_models/default/'`)
