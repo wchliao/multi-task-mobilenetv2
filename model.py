@@ -81,3 +81,32 @@ class MobileNetV2(nn.Module):
         x = self.fc[task](x)
 
         return x
+
+
+"""
+class SmallMobileNetV2(nn.Module):
+    def __init__(self, architecture, in_channels, num_classes):
+        super(SmallMobileNetV2, self).__init__()
+
+        self.relu = nn.ReLU6(inplace=True)
+
+        self.bottlenecks = _make_bottlenecks(in_channels, architecture)
+
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.dropout = nn.Dropout(p=0.2, inplace=True)
+        self.fc = nn.ModuleList([nn.Linear(architecture[-1].out_channels, c) for c in num_classes])
+
+
+    def forward(self, x, task=0):
+        x = self.bottlenecks(x)
+
+        x = self.relu(x)
+
+        x = self.avg_pool(x)
+        x = self.dropout(x)
+
+        x = x.view(x.size(0), -1)
+        x = self.fc[task](x)
+
+        return x
+"""
